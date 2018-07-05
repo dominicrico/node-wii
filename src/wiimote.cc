@@ -18,6 +18,9 @@
 using namespace v8;
 using namespace node;
 
+using v8::String;
+
+
 #define ARRAY_SIZE(a)                               \
   ((sizeof(a) / sizeof(*(a))) /                     \
   static_cast<size_t>(!(sizeof(a) % sizeof(*(a)))))
@@ -58,6 +61,7 @@ WiiMote::~WiiMote() {
 
 void WiiMote::Initialize (Handle<v8::Object> target) {
   HandleScope scope;
+  Isolate* isolate = exports->GetIsolate();
 
   DEBUG("WiiMote::Initialize()");
 
@@ -67,7 +71,7 @@ void WiiMote::Initialize (Handle<v8::Object> target) {
 
   constructor_template = FunctionTemplate::New(t);
   constructor_template->InstanceTemplate()->SetInternalFieldCount(1);
-  constructor_template->SetClassName(String::newFromUtf8("WiiMote"));
+  constructor_template->SetClassName(String::newFromUtf8(isolate, "WiiMote"));
 
   NODE_SET_PROTOTYPE_METHOD(constructor_template, "connect", Connect);
   NODE_SET_PROTOTYPE_METHOD(constructor_template, "disconnect", Disconnect);
