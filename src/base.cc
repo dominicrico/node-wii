@@ -4,11 +4,13 @@
  */
 
 #include <node.h>
-#include <v8.h>
 
-class wiimote
+using v8::Local;
+using v8::Object;
 
-void init(Handle<v8::Object> target) {
+class WiiMote;
+
+void init(v8::Local<v8::Object> target) {
   WiiMote::Initialize(target);
 }
 
