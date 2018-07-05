@@ -25,6 +25,11 @@
   #define DUMP_BYTE_STREAM(STREAM, LENGTH)
 #endif
 
+#ifndef MY_NODE_MODULE_ISOLATE_DECL
+#define MY_NODE_MODULE_ISOLATE_DECL v8::Isolate* isolate = v8::Isolate::GetCurrent();
+#ifndef MY_NODE_MODULE_ISOLATE
+#define MY_NODE_MODULE_ISOLATE      isolate
+
 using namespace v8;
 using namespace node;
 

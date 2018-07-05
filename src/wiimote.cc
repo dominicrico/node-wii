@@ -61,17 +61,17 @@ WiiMote::~WiiMote() {
 
 void WiiMote::Initialize (Handle<v8::Object> target) {
   HandleScope scope;
-  Isolate* isolate = WiiMote::New;
+  MY_NODE_MODULE_ISOLATE_DECL
 
   DEBUG("WiiMote::Initialize()");
 
   cwiid_set_err(&WiiMote_cwiid_err);
 
-  Local<FunctionTemplate> t = FunctionTemplate::New(isolate);
+  Local<FunctionTemplate> t = FunctionTemplate::New(MY_NODE_MODULE_ISOLATE);
 
-  constructor_template = FunctionTemplate::New(isolate, t);
+  constructor_template = FunctionTemplate::New(MY_NODE_MODULE_ISOLATE, t);
   constructor_template->InstanceTemplate()->SetInternalFieldCount(1);
-  constructor_template->SetClassName(v8::String::NewFromUtf8(isolate, "WiiMote"));
+  constructor_template->SetClassName(v8::String::NewFromUtf8(MY_NODE_MODULE_ISOLATE, "WiiMote"));
 
   NODE_SET_PROTOTYPE_METHOD(constructor_template, "connect", Connect);
   NODE_SET_PROTOTYPE_METHOD(constructor_template, "disconnect", Disconnect);
@@ -82,39 +82,39 @@ void WiiMote::Initialize (Handle<v8::Object> target) {
   NODE_SET_PROTOTYPE_METHOD(constructor_template, "ext", ExtReporting);
   NODE_SET_PROTOTYPE_METHOD(constructor_template, "button", ButtonReporting);
 
-  NODE_DEFINE_CONSTANT_NAME(target, "IR_X_MAX", CWIID_IR_X_MAX, isolate);
-  NODE_DEFINE_CONSTANT_NAME(target, "IR_Y_MAX", CWIID_IR_Y_MAX, isolate);
-  NODE_DEFINE_CONSTANT_NAME(target, "IR_SRC_COUNT", CWIID_IR_SRC_COUNT, isolate);
+  NODE_DEFINE_CONSTANT_NAME(target, "IR_X_MAX", CWIID_IR_X_MAX, MY_NODE_MODULE_ISOLATE);
+  NODE_DEFINE_CONSTANT_NAME(target, "IR_Y_MAX", CWIID_IR_Y_MAX, MY_NODE_MODULE_ISOLATE);
+  NODE_DEFINE_CONSTANT_NAME(target, "IR_SRC_COUNT", CWIID_IR_SRC_COUNT, MY_NODE_MODULE_ISOLATE);
 
-  NODE_DEFINE_CONSTANT_NAME(target, "BATTERY_MAX", CWIID_BATTERY_MAX, isolate);
+  NODE_DEFINE_CONSTANT_NAME(target, "BATTERY_MAX", CWIID_BATTERY_MAX, MY_NODE_MODULE_ISOLATE);
 
-  NODE_DEFINE_CONSTANT_NAME(target, "BTN_1", CWIID_BTN_1, isolate);
-  NODE_DEFINE_CONSTANT_NAME(target, "BTN_2", CWIID_BTN_2, isolate);
-  NODE_DEFINE_CONSTANT_NAME(target, "BTN_A", CWIID_BTN_A, isolate);
-  NODE_DEFINE_CONSTANT_NAME(target, "BTN_B", CWIID_BTN_B, isolate);
-  NODE_DEFINE_CONSTANT_NAME(target, "BTN_MINUS", CWIID_BTN_MINUS, isolate);
-  NODE_DEFINE_CONSTANT_NAME(target, "BTN_PLUS",  CWIID_BTN_PLUS, isolate);
-  NODE_DEFINE_CONSTANT_NAME(target, "BTN_HOME",  CWIID_BTN_HOME, isolate);
-  NODE_DEFINE_CONSTANT_NAME(target, "BTN_LEFT",  CWIID_BTN_LEFT, isolate);
-  NODE_DEFINE_CONSTANT_NAME(target, "BTN_RIGHT", CWIID_BTN_RIGHT, isolate);
-  NODE_DEFINE_CONSTANT_NAME(target, "BTN_UP",    CWIID_BTN_UP, isolate);
-  NODE_DEFINE_CONSTANT_NAME(target, "BTN_DOWN",  CWIID_BTN_DOWN, isolate);
+  NODE_DEFINE_CONSTANT_NAME(target, "BTN_1", CWIID_BTN_1, MY_NODE_MODULE_ISOLATE);
+  NODE_DEFINE_CONSTANT_NAME(target, "BTN_2", CWIID_BTN_2, MY_NODE_MODULE_ISOLATE);
+  NODE_DEFINE_CONSTANT_NAME(target, "BTN_A", CWIID_BTN_A, MY_NODE_MODULE_ISOLATE);
+  NODE_DEFINE_CONSTANT_NAME(target, "BTN_B", CWIID_BTN_B, MY_NODE_MODULE_ISOLATE);
+  NODE_DEFINE_CONSTANT_NAME(target, "BTN_MINUS", CWIID_BTN_MINUS, MY_NODE_MODULE_ISOLATE);
+  NODE_DEFINE_CONSTANT_NAME(target, "BTN_PLUS",  CWIID_BTN_PLUS, MY_NODE_MODULE_ISOLATE);
+  NODE_DEFINE_CONSTANT_NAME(target, "BTN_HOME",  CWIID_BTN_HOME, MY_NODE_MODULE_ISOLATE);
+  NODE_DEFINE_CONSTANT_NAME(target, "BTN_LEFT",  CWIID_BTN_LEFT, MY_NODE_MODULE_ISOLATE);
+  NODE_DEFINE_CONSTANT_NAME(target, "BTN_RIGHT", CWIID_BTN_RIGHT, MY_NODE_MODULE_ISOLATE);
+  NODE_DEFINE_CONSTANT_NAME(target, "BTN_UP",    CWIID_BTN_UP, MY_NODE_MODULE_ISOLATE);
+  NODE_DEFINE_CONSTANT_NAME(target, "BTN_DOWN",  CWIID_BTN_DOWN, MY_NODE_MODULE_ISOLATE);
 
-  NODE_DEFINE_CONSTANT_NAME(target, "EXT_NONE",       CWIID_EXT_NONE, isolate);
-  NODE_DEFINE_CONSTANT_NAME(target, "EXT_NUNCHUK",    CWIID_EXT_NUNCHUK, isolate);
-  NODE_DEFINE_CONSTANT_NAME(target, "EXT_CLASSIC",    CWIID_EXT_CLASSIC, isolate);
-  NODE_DEFINE_CONSTANT_NAME(target, "EXT_BALANCE",    CWIID_EXT_BALANCE, isolate);
-  NODE_DEFINE_CONSTANT_NAME(target, "EXT_MOTIONPLUS", CWIID_EXT_MOTIONPLUS, isolate);
+  NODE_DEFINE_CONSTANT_NAME(target, "EXT_NONE",       CWIID_EXT_NONE, MY_NODE_MODULE_ISOLATE);
+  NODE_DEFINE_CONSTANT_NAME(target, "EXT_NUNCHUK",    CWIID_EXT_NUNCHUK, MY_NODE_MODULE_ISOLATE);
+  NODE_DEFINE_CONSTANT_NAME(target, "EXT_CLASSIC",    CWIID_EXT_CLASSIC, MY_NODE_MODULE_ISOLATE);
+  NODE_DEFINE_CONSTANT_NAME(target, "EXT_BALANCE",    CWIID_EXT_BALANCE, MY_NODE_MODULE_ISOLATE);
+  NODE_DEFINE_CONSTANT_NAME(target, "EXT_MOTIONPLUS", CWIID_EXT_MOTIONPLUS, MY_NODE_MODULE_ISOLATE);
   //NODE_DEFINE_CONSTANT_NAME(target, "EXT_GUITAR",     CWIID_EXT_GUITAR);
   //NODE_DEFINE_CONSTANT_NAME(target, "EXT_DRUMS",      CWIID_EXT_DRUMS);
   //NODE_DEFINE_CONSTANT_NAME(target, "EXT_TURNTABLES", CWIID_EXT_TURNTABLES);
-  NODE_DEFINE_CONSTANT_NAME(target, "EXT_UNKNOWN",    CWIID_EXT_UNKNOWN, isolate);
+  NODE_DEFINE_CONSTANT_NAME(target, "EXT_UNKNOWN",    CWIID_EXT_UNKNOWN, MY_NODE_MODULE_ISOLATE);
 
-  NODE_DEFINE_CONSTANT_NAME(target, "ERROR_NONE",       CWIID_ERROR_NONE, isolate);
-  NODE_DEFINE_CONSTANT_NAME(target, "ERROR_DISCONNECT", CWIID_ERROR_DISCONNECT, isolate);
-  NODE_DEFINE_CONSTANT_NAME(target, "ERROR_COMM",       CWIID_ERROR_COMM, isolate);
+  NODE_DEFINE_CONSTANT_NAME(target, "ERROR_NONE",       CWIID_ERROR_NONE, MY_NODE_MODULE_ISOLATE);
+  NODE_DEFINE_CONSTANT_NAME(target, "ERROR_DISCONNECT", CWIID_ERROR_DISCONNECT, MY_NODE_MODULE_ISOLATE);
+  NODE_DEFINE_CONSTANT_NAME(target, "ERROR_COMM",       CWIID_ERROR_COMM, MY_NODE_MODULE_ISOLATE);
 
-  target->Set(String::NewFromUtf8(isolate, "WiiMote"), constructor_template->GetFunction());
+  target->Set(String::NewFromUtf8(MY_NODE_MODULE_ISOLATE, "WiiMote"), constructor_template->GetFunction());
 }
 
 int WiiMote::Connect(bdaddr_t * mac) {
@@ -198,8 +198,8 @@ int WiiMote::Reporting(int mode, bool on) {
 }
 
 void WiiMote::HandleAccMessage(struct timespec *ts, cwiid_acc_mesg * msg) {
-  Isolate* isolate = WiiMote::New;
-  HandleScope scope(isolate);
+  MY_NODE_MODULE_ISOLATE_DECL
+  HandleScope scope(MY_NODE_MODULE_ISOLATE);
 
   Local<Object> pos = Object::New();   // Create array of x,y,z
   pos->Set(String::NewFromUtf8("x"), Integer::New(msg->acc[CWIID_X]) );
@@ -211,18 +211,18 @@ void WiiMote::HandleAccMessage(struct timespec *ts, cwiid_acc_mesg * msg) {
 }
 
 void WiiMote::HandleButtonMessage(struct timespec *ts, cwiid_btn_mesg * msg) {
-  Isolate* isolate = WiiMote::New;
-  HandleScope scope(isolate);
+  MY_NODE_MODULE_ISOLATE_DECL
+HandleScope scope(MY_NODE_MODULE_ISOLATE);
 
-  Local<Integer> btn = Integer::New(isolate, msg->buttons);
+  Local<Integer> btn = Integer::New(msg->buttons);
 
   Local<Value> argv[2] = { String::New("button"), btn };
   MakeCallback(self, "emit", ARRAY_SIZE(argv), argv);
 }
 
 void WiiMote::HandleErrorMessage(struct timespec *ts, cwiid_error_mesg * msg) {
-  Isolate* isolate = WiiMote::New;
-  HandleScope scope(isolate);
+  MY_NODE_MODULE_ISOLATE_DECL
+HandleScope scope(MY_NODE_MODULE_ISOLATE);
 
   Local<Integer> err = Integer::New(msg->error);
 
@@ -235,8 +235,8 @@ void WiiMote::HandleNunchukMessage(struct timespec *ts, cwiid_nunchuk_mesg * msg
 }
 
 void WiiMote::HandleIRMessage(struct timespec *ts, cwiid_ir_mesg * msg) {
-  Isolate* isolate = WiiMote::New;
-  HandleScope scope(isolate);
+  MY_NODE_MODULE_ISOLATE_DECL
+HandleScope scope(MY_NODE_MODULE_ISOLATE);
   Local<Array> poss = Array::New(CWIID_IR_SRC_COUNT);
 
   // Check IR data sources
@@ -258,8 +258,8 @@ void WiiMote::HandleIRMessage(struct timespec *ts, cwiid_ir_mesg * msg) {
 }
 
 void WiiMote::HandleStatusMessage(struct timespec *ts, cwiid_status_mesg * msg) {
-  Isolate* isolate = WiiMote::New;
-  HandleScope scope(isolate);
+  MY_NODE_MODULE_ISOLATE_DECL
+HandleScope scope(MY_NODE_MODULE_ISOLATE);
 
   Local<Object> obj = Object::New();
 
@@ -340,8 +340,8 @@ void WiiMote::HandleMessages(cwiid_wiimote_t *wiimote, int len, union cwiid_mesg
 }
 
 Handle<Value> WiiMote::New(const Arguments& args) {
-  Isolate* isolate = WiiMote::New;
-  HandleScope scope(isolate);
+  MY_NODE_MODULE_ISOLATE_DECL
+  HandleScope scope(MY_NODE_MODULE_ISOLATE);
 
   assert(args.IsConstructCall());
 
@@ -357,8 +357,8 @@ Handle<Value> WiiMote::Connect(const Arguments& args) {
   WiiMote* wiimote = ObjectWrap::Unwrap<WiiMote>(args.This());
   Local<Function> callback;
 
-  Isolate* isolate = WiiMote::New;
-  HandleScope scope(isolate);
+  MY_NODE_MODULE_ISOLATE_DECL
+HandleScope scope(MY_NODE_MODULE_ISOLATE);
 
   if(args.Length() == 0 || !args[0]->IsString()) {
     return ThrowException(Exception::Error(String::New("MAC address is required and must be a String.")));
@@ -406,8 +406,8 @@ void WiiMote::UV_Connect(uv_work_t* req) {
 }
 
 void WiiMote::UV_AfterConnect(uv_work_t* req, int status) {
-  Isolate* isolate = WiiMote::New;
-  HandleScope scope(isolate);
+  MY_NODE_MODULE_ISOLATE_DECL
+HandleScope scope(MY_NODE_MODULE_ISOLATE);
 
   connect_request* ar = static_cast<connect_request* >(req->data);
   delete req;
@@ -436,8 +436,8 @@ void WiiMote::UV_AfterConnect(uv_work_t* req, int status) {
 }
 
 Handle<Value> WiiMote::Disconnect(const Arguments& args) {
-  Isolate* isolate = WiiMote::New;
-  HandleScope scope(isolate);
+  MY_NODE_MODULE_ISOLATE_DECL
+HandleScope scope(MY_NODE_MODULE_ISOLATE);
 
   WiiMote* wiimote = ObjectWrap::Unwrap<WiiMote>(args.This());
   return Integer::New(wiimote->Disconnect());
@@ -445,8 +445,8 @@ Handle<Value> WiiMote::Disconnect(const Arguments& args) {
 
 
 Handle<Value> WiiMote::Rumble(const Arguments& args) {
-  Isolate* isolate = WiiMote::New;
-  HandleScope scope(isolate);
+  MY_NODE_MODULE_ISOLATE_DECL
+HandleScope scope(MY_NODE_MODULE_ISOLATE);
 
   WiiMote* wiimote = ObjectWrap::Unwrap<WiiMote>(args.This());
 
@@ -460,8 +460,8 @@ Handle<Value> WiiMote::Rumble(const Arguments& args) {
 }
 
 Handle<Value> WiiMote::Led(const Arguments& args) {
-  Isolate* isolate = WiiMote::New;
-  HandleScope scope(isolate);
+  MY_NODE_MODULE_ISOLATE_DECL
+HandleScope scope(MY_NODE_MODULE_ISOLATE);
 
   WiiMote* wiimote = ObjectWrap::Unwrap<WiiMote>(args.This());
 
@@ -481,8 +481,8 @@ Handle<Value> WiiMote::Led(const Arguments& args) {
 
 
 Handle<Value> WiiMote::IrReporting(const Arguments& args) {
-  Isolate* isolate = WiiMote::New;
-  HandleScope scope(isolate);
+  MY_NODE_MODULE_ISOLATE_DECL
+HandleScope scope(MY_NODE_MODULE_ISOLATE);
 
   WiiMote* wiimote = ObjectWrap::Unwrap<WiiMote>(args.This());
 
@@ -495,8 +495,8 @@ Handle<Value> WiiMote::IrReporting(const Arguments& args) {
 }
 
 Handle<Value> WiiMote::AccReporting(const Arguments& args) {
-  Isolate* isolate = WiiMote::New;
-HandleScope scope(isolate);
+  MY_NODE_MODULE_ISOLATE_DECL
+HandleScope scope(MY_NODE_MODULE_ISOLATE);
 
   WiiMote* wiimote = ObjectWrap::Unwrap<WiiMote>(args.This());
 
@@ -509,8 +509,8 @@ HandleScope scope(isolate);
 }
 
 Handle<Value> WiiMote::ExtReporting(const Arguments& args) {
-  Isolate* isolate = WiiMote::New;
-HandleScope scope(isolate);
+  MY_NODE_MODULE_ISOLATE_DECL
+HandleScope scope(MY_NODE_MODULE_ISOLATE);
 
   WiiMote* wiimote = ObjectWrap::Unwrap<WiiMote>(args.This());
 
@@ -523,8 +523,8 @@ HandleScope scope(isolate);
 }
 
 Handle<Value> WiiMote::ButtonReporting(const Arguments& args) {
-  Isolate* isolate = WiiMote::New;
-HandleScope scope(isolate);
+  MY_NODE_MODULE_ISOLATE_DECL
+HandleScope scope(MY_NODE_MODULE_ISOLATE);
 
   WiiMote* wiimote = ObjectWrap::Unwrap<WiiMote>(args.This());
 
