@@ -55,7 +55,7 @@ WiiMote::~WiiMote() {
 };
 
 #define NODE_DEFINE_CONSTANT_NAME(target, name, constant, isolate)              \
-  (target)->Set(v8::String::NewFromUtf8(name),                         \
+  (target)->Set(v8::String::NewFromUtf8(isolate, name),                         \
                 v8::Integer::New(constant),                                     \
                 static_cast<v8::PropertyAttribute>(v8::ReadOnly|v8::DontDelete))
 
@@ -71,7 +71,7 @@ void WiiMote::Initialize (Handle<v8::Object> target) {
 
   constructor_template = FunctionTemplate::New(t);
   constructor_template->InstanceTemplate()->SetInternalFieldCount(1);
-  constructor_template->SetClassName(String::NewFromUtf8("WiiMote"));
+  constructor_template->SetClassName(String::NewFromUtf8(isolate, "WiiMote"));
 
   NODE_SET_PROTOTYPE_METHOD(constructor_template, "connect", Connect);
   NODE_SET_PROTOTYPE_METHOD(constructor_template, "disconnect", Disconnect);
@@ -114,7 +114,7 @@ void WiiMote::Initialize (Handle<v8::Object> target) {
   NODE_DEFINE_CONSTANT_NAME(target, "ERROR_DISCONNECT", CWIID_ERROR_DISCONNECT, isolate);
   NODE_DEFINE_CONSTANT_NAME(target, "ERROR_COMM",       CWIID_ERROR_COMM, isolate);
 
-  target->Set(String::NewFromUtf8("WiiMote"), constructor_template->GetFunction());
+  target->Set(String::NewFromUtf8(isolate, "WiiMote"), constructor_template->GetFunction());
 }
 
 int WiiMote::Connect(bdaddr_t * mac) {
