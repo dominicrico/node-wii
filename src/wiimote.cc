@@ -56,22 +56,22 @@ WiiMote::~WiiMote() {
 
 #define NODE_DEFINE_CONSTANT_NAME(target, name, constant, isolate)              \
   (target)->Set(v8::String::NewFromUtf8(isolate, name),                         \
-                v8::Integer::New(constant),                                     \
+                v8::Integer::New(isolate, constant),                                     \
                 static_cast<v8::PropertyAttribute>(v8::ReadOnly|v8::DontDelete))
 
 void WiiMote::Initialize (Handle<v8::Object> target) {
   HandleScope scope;
-  Isolate* isolate = target->GetIsolate();
+  Isolate* isolate = WiiMote::New;
 
   DEBUG("WiiMote::Initialize()");
 
   cwiid_set_err(&WiiMote_cwiid_err);
 
-  Local<FunctionTemplate> t = FunctionTemplate::New(WiiMote::New);
+  Local<FunctionTemplate> t = FunctionTemplate::New(isolate);
 
-  constructor_template = FunctionTemplate::New(t);
+  constructor_template = FunctionTemplate::New(isolate, t);
   constructor_template->InstanceTemplate()->SetInternalFieldCount(1);
-  constructor_template->SetClassName(String::NewFromUtf8(isolate, "WiiMote"));
+  constructor_template->SetClassName(v8::String::NewFromUtf8(isolate, "WiiMote"));
 
   NODE_SET_PROTOTYPE_METHOD(constructor_template, "connect", Connect);
   NODE_SET_PROTOTYPE_METHOD(constructor_template, "disconnect", Disconnect);

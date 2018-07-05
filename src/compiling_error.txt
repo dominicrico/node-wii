@@ -1,4 +1,0 @@
-/Users/rico/Development/node-wii/src/wiimote.cc:8:10: fatal error: 'v8.h' file not found
-#include <v8.h>
-         ^~~~~~
-1 error generated.
