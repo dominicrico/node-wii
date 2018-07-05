@@ -6,7 +6,7 @@
 #include <node.h>
 #include <v8.h>
 
-#include "../include/wiimote.h"
+class "../include/wiimote.h"
 
 void init(Handle<v8::Object> target) {
   WiiMote::Initialize(target);
