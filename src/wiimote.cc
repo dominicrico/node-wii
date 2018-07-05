@@ -54,9 +54,9 @@ WiiMote::~WiiMote() {
 	Disconnect();
 };
 
-#define NODE_DEFINE_CONSTANT_NAME(target, name, constant)                 \
-  (target)->Set(v8::String::newFromUtf8(name),                              \
-                v8::Integer::New(constant),                               \
+#define NODE_DEFINE_CONSTANT_NAME(target, name, constant, isolate)              \
+  (target)->Set(v8::String::newFromUtf8(isolate, name),                         \
+                v8::Integer::New(constant),                                     \
                 static_cast<v8::PropertyAttribute>(v8::ReadOnly|v8::DontDelete))
 
 void WiiMote::Initialize (Handle<v8::Object> target) {
@@ -82,39 +82,39 @@ void WiiMote::Initialize (Handle<v8::Object> target) {
   NODE_SET_PROTOTYPE_METHOD(constructor_template, "ext", ExtReporting);
   NODE_SET_PROTOTYPE_METHOD(constructor_template, "button", ButtonReporting);
 
-  NODE_DEFINE_CONSTANT_NAME(target, "IR_X_MAX", CWIID_IR_X_MAX);
-  NODE_DEFINE_CONSTANT_NAME(target, "IR_Y_MAX", CWIID_IR_Y_MAX);
-  NODE_DEFINE_CONSTANT_NAME(target, "IR_SRC_COUNT", CWIID_IR_SRC_COUNT);
+  NODE_DEFINE_CONSTANT_NAME(target, "IR_X_MAX", CWIID_IR_X_MAX, isolate);
+  NODE_DEFINE_CONSTANT_NAME(target, "IR_Y_MAX", CWIID_IR_Y_MAX, isolate);
+  NODE_DEFINE_CONSTANT_NAME(target, "IR_SRC_COUNT", CWIID_IR_SRC_COUNT, isolate);
 
-  NODE_DEFINE_CONSTANT_NAME(target, "BATTERY_MAX", CWIID_BATTERY_MAX);
+  NODE_DEFINE_CONSTANT_NAME(target, "BATTERY_MAX", CWIID_BATTERY_MAX, isolate);
 
-  NODE_DEFINE_CONSTANT_NAME(target, "BTN_1", CWIID_BTN_1);
-  NODE_DEFINE_CONSTANT_NAME(target, "BTN_2", CWIID_BTN_2);
-  NODE_DEFINE_CONSTANT_NAME(target, "BTN_A", CWIID_BTN_A);
-  NODE_DEFINE_CONSTANT_NAME(target, "BTN_B", CWIID_BTN_B);
-  NODE_DEFINE_CONSTANT_NAME(target, "BTN_MINUS", CWIID_BTN_MINUS);
-  NODE_DEFINE_CONSTANT_NAME(target, "BTN_PLUS",  CWIID_BTN_PLUS);
-  NODE_DEFINE_CONSTANT_NAME(target, "BTN_HOME",  CWIID_BTN_HOME);
-  NODE_DEFINE_CONSTANT_NAME(target, "BTN_LEFT",  CWIID_BTN_LEFT);
-  NODE_DEFINE_CONSTANT_NAME(target, "BTN_RIGHT", CWIID_BTN_RIGHT);
-  NODE_DEFINE_CONSTANT_NAME(target, "BTN_UP",    CWIID_BTN_UP);
-  NODE_DEFINE_CONSTANT_NAME(target, "BTN_DOWN",  CWIID_BTN_DOWN);
+  NODE_DEFINE_CONSTANT_NAME(target, "BTN_1", CWIID_BTN_1, isolate);
+  NODE_DEFINE_CONSTANT_NAME(target, "BTN_2", CWIID_BTN_2, isolate);
+  NODE_DEFINE_CONSTANT_NAME(target, "BTN_A", CWIID_BTN_A, isolate);
+  NODE_DEFINE_CONSTANT_NAME(target, "BTN_B", CWIID_BTN_B, isolate);
+  NODE_DEFINE_CONSTANT_NAME(target, "BTN_MINUS", CWIID_BTN_MINUS, isolate);
+  NODE_DEFINE_CONSTANT_NAME(target, "BTN_PLUS",  CWIID_BTN_PLUS, isolate);
+  NODE_DEFINE_CONSTANT_NAME(target, "BTN_HOME",  CWIID_BTN_HOME, isolate);
+  NODE_DEFINE_CONSTANT_NAME(target, "BTN_LEFT",  CWIID_BTN_LEFT, isolate);
+  NODE_DEFINE_CONSTANT_NAME(target, "BTN_RIGHT", CWIID_BTN_RIGHT, isolate);
+  NODE_DEFINE_CONSTANT_NAME(target, "BTN_UP",    CWIID_BTN_UP, isolate);
+  NODE_DEFINE_CONSTANT_NAME(target, "BTN_DOWN",  CWIID_BTN_DOWN, isolate);
 
-  NODE_DEFINE_CONSTANT_NAME(target, "EXT_NONE",       CWIID_EXT_NONE);
-  NODE_DEFINE_CONSTANT_NAME(target, "EXT_NUNCHUK",    CWIID_EXT_NUNCHUK);
-  NODE_DEFINE_CONSTANT_NAME(target, "EXT_CLASSIC",    CWIID_EXT_CLASSIC);
-  NODE_DEFINE_CONSTANT_NAME(target, "EXT_BALANCE",    CWIID_EXT_BALANCE);
-  NODE_DEFINE_CONSTANT_NAME(target, "EXT_MOTIONPLUS", CWIID_EXT_MOTIONPLUS);
+  NODE_DEFINE_CONSTANT_NAME(target, "EXT_NONE",       CWIID_EXT_NONE, isolate);
+  NODE_DEFINE_CONSTANT_NAME(target, "EXT_NUNCHUK",    CWIID_EXT_NUNCHUK, isolate);
+  NODE_DEFINE_CONSTANT_NAME(target, "EXT_CLASSIC",    CWIID_EXT_CLASSIC, isolate);
+  NODE_DEFINE_CONSTANT_NAME(target, "EXT_BALANCE",    CWIID_EXT_BALANCE, isolate);
+  NODE_DEFINE_CONSTANT_NAME(target, "EXT_MOTIONPLUS", CWIID_EXT_MOTIONPLUS, isolate);
   //NODE_DEFINE_CONSTANT_NAME(target, "EXT_GUITAR",     CWIID_EXT_GUITAR);
   //NODE_DEFINE_CONSTANT_NAME(target, "EXT_DRUMS",      CWIID_EXT_DRUMS);
   //NODE_DEFINE_CONSTANT_NAME(target, "EXT_TURNTABLES", CWIID_EXT_TURNTABLES);
-  NODE_DEFINE_CONSTANT_NAME(target, "EXT_UNKNOWN",    CWIID_EXT_UNKNOWN);
+  NODE_DEFINE_CONSTANT_NAME(target, "EXT_UNKNOWN",    CWIID_EXT_UNKNOWN, isolate);
 
-  NODE_DEFINE_CONSTANT_NAME(target, "ERROR_NONE",       CWIID_ERROR_NONE);
-  NODE_DEFINE_CONSTANT_NAME(target, "ERROR_DISCONNECT", CWIID_ERROR_DISCONNECT);
-  NODE_DEFINE_CONSTANT_NAME(target, "ERROR_COMM",       CWIID_ERROR_COMM);
+  NODE_DEFINE_CONSTANT_NAME(target, "ERROR_NONE",       CWIID_ERROR_NONE, isolate);
+  NODE_DEFINE_CONSTANT_NAME(target, "ERROR_DISCONNECT", CWIID_ERROR_DISCONNECT, isolate);
+  NODE_DEFINE_CONSTANT_NAME(target, "ERROR_COMM",       CWIID_ERROR_COMM, isolate);
 
-  target->Set(String::newFromUtf8("WiiMote"), constructor_template->GetFunction());
+  target->Set(String::newFromUtf8(isolate, "WiiMote"), constructor_template->GetFunction());
 }
 
 int WiiMote::Connect(bdaddr_t * mac) {

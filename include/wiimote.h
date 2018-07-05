@@ -32,7 +32,7 @@ using namespace node;
  * Class: WiiMote
  *   Wrapper for libcwiid connect.
  */
-class WiiMote : public ObjectWrap {
+class WiiMote : public node::ObjectWrap {
   public:
     /**
      * Variable: ir_event
