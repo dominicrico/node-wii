@@ -61,6 +61,7 @@ WiiMote::~WiiMote() {
 
 void WiiMote::Initialize (Handle<v8::Object> target) {
   HandleScope scope;
+  Isolate* isolate = WiiMote::New;
 
   DEBUG("WiiMote::Initialize()");
 
@@ -197,7 +198,8 @@ int WiiMote::Reporting(int mode, bool on) {
 }
 
 void WiiMote::HandleAccMessage(struct timespec *ts, cwiid_acc_mesg * msg) {
-  HandleScope scope;
+  Isolate* isolate = WiiMote::New;
+  HandleScope scope(isolate);
 
   Local<Object> pos = Object::New();   // Create array of x,y,z
   pos->Set(String::NewFromUtf8("x"), Integer::New(msg->acc[CWIID_X]) );
@@ -209,16 +211,18 @@ void WiiMote::HandleAccMessage(struct timespec *ts, cwiid_acc_mesg * msg) {
 }
 
 void WiiMote::HandleButtonMessage(struct timespec *ts, cwiid_btn_mesg * msg) {
-  HandleScope scope;
+  Isolate* isolate = WiiMote::New;
+  HandleScope scope(isolate);
 
-  Local<Integer> btn = Integer::New(msg->buttons);
+  Local<Integer> btn = Integer::New(isolate, msg->buttons);
 
   Local<Value> argv[2] = { String::New("button"), btn };
   MakeCallback(self, "emit", ARRAY_SIZE(argv), argv);
 }
 
 void WiiMote::HandleErrorMessage(struct timespec *ts, cwiid_error_mesg * msg) {
-  HandleScope scope;
+  Isolate* isolate = WiiMote::New;
+  HandleScope scope(isolate);
 
   Local<Integer> err = Integer::New(msg->error);
 
@@ -231,7 +235,8 @@ void WiiMote::HandleNunchukMessage(struct timespec *ts, cwiid_nunchuk_mesg * msg
 }
 
 void WiiMote::HandleIRMessage(struct timespec *ts, cwiid_ir_mesg * msg) {
-  HandleScope scope;
+  Isolate* isolate = WiiMote::New;
+  HandleScope scope(isolate);
   Local<Array> poss = Array::New(CWIID_IR_SRC_COUNT);
 
   // Check IR data sources
@@ -253,7 +258,8 @@ void WiiMote::HandleIRMessage(struct timespec *ts, cwiid_ir_mesg * msg) {
 }
 
 void WiiMote::HandleStatusMessage(struct timespec *ts, cwiid_status_mesg * msg) {
-  HandleScope scope;
+  Isolate* isolate = WiiMote::New;
+  HandleScope scope(isolate);
 
   Local<Object> obj = Object::New();
 
@@ -334,7 +340,8 @@ void WiiMote::HandleMessages(cwiid_wiimote_t *wiimote, int len, union cwiid_mesg
 }
 
 Handle<Value> WiiMote::New(const Arguments& args) {
-  HandleScope scope;
+  Isolate* isolate = WiiMote::New;
+  HandleScope scope(isolate);
 
   assert(args.IsConstructCall());
 
@@ -350,7 +357,8 @@ Handle<Value> WiiMote::Connect(const Arguments& args) {
   WiiMote* wiimote = ObjectWrap::Unwrap<WiiMote>(args.This());
   Local<Function> callback;
 
-  HandleScope scope;
+  Isolate* isolate = WiiMote::New;
+  HandleScope scope(isolate);
 
   if(args.Length() == 0 || !args[0]->IsString()) {
     return ThrowException(Exception::Error(String::New("MAC address is required and must be a String.")));
@@ -398,7 +406,8 @@ void WiiMote::UV_Connect(uv_work_t* req) {
 }
 
 void WiiMote::UV_AfterConnect(uv_work_t* req, int status) {
-  HandleScope scope;
+  Isolate* isolate = WiiMote::New;
+  HandleScope scope(isolate);
 
   connect_request* ar = static_cast<connect_request* >(req->data);
   delete req;
@@ -427,7 +436,8 @@ void WiiMote::UV_AfterConnect(uv_work_t* req, int status) {
 }
 
 Handle<Value> WiiMote::Disconnect(const Arguments& args) {
-  HandleScope scope;
+  Isolate* isolate = WiiMote::New;
+  HandleScope scope(isolate);
 
   WiiMote* wiimote = ObjectWrap::Unwrap<WiiMote>(args.This());
   return Integer::New(wiimote->Disconnect());
@@ -435,7 +445,8 @@ Handle<Value> WiiMote::Disconnect(const Arguments& args) {
 
 
 Handle<Value> WiiMote::Rumble(const Arguments& args) {
-  HandleScope scope;
+  Isolate* isolate = WiiMote::New;
+  HandleScope scope(isolate);
 
   WiiMote* wiimote = ObjectWrap::Unwrap<WiiMote>(args.This());
 
@@ -449,7 +460,8 @@ Handle<Value> WiiMote::Rumble(const Arguments& args) {
 }
 
 Handle<Value> WiiMote::Led(const Arguments& args) {
-  HandleScope scope;
+  Isolate* isolate = WiiMote::New;
+  HandleScope scope(isolate);
 
   WiiMote* wiimote = ObjectWrap::Unwrap<WiiMote>(args.This());
 
@@ -469,7 +481,8 @@ Handle<Value> WiiMote::Led(const Arguments& args) {
 
 
 Handle<Value> WiiMote::IrReporting(const Arguments& args) {
-  HandleScope scope;
+  Isolate* isolate = WiiMote::New;
+  HandleScope scope(isolate);
 
   WiiMote* wiimote = ObjectWrap::Unwrap<WiiMote>(args.This());
 
@@ -482,7 +495,8 @@ Handle<Value> WiiMote::IrReporting(const Arguments& args) {
 }
 
 Handle<Value> WiiMote::AccReporting(const Arguments& args) {
-  HandleScope scope;
+  Isolate* isolate = WiiMote::New;
+HandleScope scope(isolate);
 
   WiiMote* wiimote = ObjectWrap::Unwrap<WiiMote>(args.This());
 
@@ -495,7 +509,8 @@ Handle<Value> WiiMote::AccReporting(const Arguments& args) {
 }
 
 Handle<Value> WiiMote::ExtReporting(const Arguments& args) {
-  HandleScope scope;
+  Isolate* isolate = WiiMote::New;
+HandleScope scope(isolate);
 
   WiiMote* wiimote = ObjectWrap::Unwrap<WiiMote>(args.This());
 
@@ -508,7 +523,8 @@ Handle<Value> WiiMote::ExtReporting(const Arguments& args) {
 }
 
 Handle<Value> WiiMote::ButtonReporting(const Arguments& args) {
-  HandleScope scope;
+  Isolate* isolate = WiiMote::New;
+HandleScope scope(isolate);
 
   WiiMote* wiimote = ObjectWrap::Unwrap<WiiMote>(args.This());
 
