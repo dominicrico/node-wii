@@ -55,7 +55,7 @@ WiiMote::~WiiMote() {
 };
 
 #define NODE_DEFINE_CONSTANT_NAME(target, name, constant, isolate)              \
-  (target)->Set(v8::String::newFromUtf8(isolate, name),                         \
+  (target)->Set(v8::String::NewFromUtf8(isolate, name),                         \
                 v8::Integer::New(constant),                                     \
                 static_cast<v8::PropertyAttribute>(v8::ReadOnly|v8::DontDelete))
 
@@ -71,7 +71,7 @@ void WiiMote::Initialize (Handle<v8::Object> target) {
 
   constructor_template = FunctionTemplate::New(t);
   constructor_template->InstanceTemplate()->SetInternalFieldCount(1);
-  constructor_template->SetClassName(String::newFromUtf8(isolate, "WiiMote"));
+  constructor_template->SetClassName(String::NewFromUtf8(isolate, "WiiMote"));
 
   NODE_SET_PROTOTYPE_METHOD(constructor_template, "connect", Connect);
   NODE_SET_PROTOTYPE_METHOD(constructor_template, "disconnect", Disconnect);
@@ -114,7 +114,7 @@ void WiiMote::Initialize (Handle<v8::Object> target) {
   NODE_DEFINE_CONSTANT_NAME(target, "ERROR_DISCONNECT", CWIID_ERROR_DISCONNECT, isolate);
   NODE_DEFINE_CONSTANT_NAME(target, "ERROR_COMM",       CWIID_ERROR_COMM, isolate);
 
-  target->Set(String::newFromUtf8(isolate, "WiiMote"), constructor_template->GetFunction());
+  target->Set(String::NewFromUtf8(isolate, "WiiMote"), constructor_template->GetFunction());
 }
 
 int WiiMote::Connect(bdaddr_t * mac) {
@@ -201,9 +201,9 @@ void WiiMote::HandleAccMessage(struct timespec *ts, cwiid_acc_mesg * msg) {
   HandleScope scope;
 
   Local<Object> pos = Object::New();   // Create array of x,y,z
-  pos->Set(String::newFromUtf8("x"), Integer::New(msg->acc[CWIID_X]) );
-  pos->Set(String::newFromUtf8("y"), Integer::New(msg->acc[CWIID_Y]) );
-  pos->Set(String::newFromUtf8("z"), Integer::New(msg->acc[CWIID_Z]) );
+  pos->Set(String::NewFromUtf8("x"), Integer::New(msg->acc[CWIID_X]) );
+  pos->Set(String::NewFromUtf8("y"), Integer::New(msg->acc[CWIID_Y]) );
+  pos->Set(String::NewFromUtf8("z"), Integer::New(msg->acc[CWIID_Z]) );
 
   Local<Value> argv[2] = { String::New("acc"), pos };
   MakeCallback(self, "emit", ARRAY_SIZE(argv), argv);
@@ -242,9 +242,9 @@ void WiiMote::HandleIRMessage(struct timespec *ts, cwiid_ir_mesg * msg) {
 
     // Create array of x,y
     Local<Object> pos = Object::New();
-    pos->Set(String::newFromUtf8("x"), Integer::New( msg->src[i].pos[CWIID_X] ));
-    pos->Set(String::newFromUtf8("y"), Integer::New( msg->src[i].pos[CWIID_Y] ));
-    pos->Set(String::newFromUtf8("size"), Integer::New( msg->src[i].size ));
+    pos->Set(String::NewFromUtf8("x"), Integer::New( msg->src[i].pos[CWIID_X] ));
+    pos->Set(String::NewFromUtf8("y"), Integer::New( msg->src[i].pos[CWIID_Y] ));
+    pos->Set(String::NewFromUtf8("size"), Integer::New( msg->src[i].size ));
 
     poss->Set(Integer::New(i), pos);
   }
@@ -258,8 +258,8 @@ void WiiMote::HandleStatusMessage(struct timespec *ts, cwiid_status_mesg * msg) 
 
   Local<Object> obj = Object::New();
 
-  obj->Set(String::newFromUtf8("battery"),    Integer::New(msg->battery));
-  obj->Set(String::newFromUtf8("extensions"), Integer::New(msg->ext_type));
+  obj->Set(String::NewFromUtf8("battery"),    Integer::New(msg->battery));
+  obj->Set(String::NewFromUtf8("extensions"), Integer::New(msg->ext_type));
 
   Local<Value> argv[2] = { String::New("status"), obj };
   MakeCallback(self, "emit", ARRAY_SIZE(argv), argv);
