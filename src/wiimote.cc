@@ -61,7 +61,7 @@ WiiMote::~WiiMote() {
 
 void WiiMote::Initialize (Handle<v8::Object> target) {
   HandleScope scope;
-  Isolate* isolate = exports->GetIsolate();
+  Isolate* isolate = target->GetIsolate();
 
   DEBUG("WiiMote::Initialize()");
 
